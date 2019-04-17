@@ -1,0 +1,11 @@
+
+temp <- tempfile()
+download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip",temp)
+data <- read.table(unz(temp, "household_power_consumption.txt"), sep=";",header = T)
+unlink(temp)
+data$Date <- as.Date(data$Date , format="%d/%m/%Y")
+data<-subset(data,Date == "2007-02-01"|Date == "2007-02-02")
+data$Global_active_power <- as.numeric(as.character(data$Global_active_power))
+png("plot1.png", width = 480, height = "480")
+hist(data$Global_active_power,col="red",xlab = "Global Active Power (kilowatts)",ylab="Frequency",main="Global Active Power")
+dev.off()
